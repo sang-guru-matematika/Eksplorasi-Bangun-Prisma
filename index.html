@@ -634,6 +634,8 @@
           <p class="font-semibold text-slate-500 dark:text-slate-400 mt-2" id="result-text"></p>
           <p class="font-display text-6xl font-bold mt-5 text-violet-600 dark:text-violet-300"><span id="result-score">0</span><span class="text-2xl text-slate-400">/100</span></p>
           <p class="font-bold text-slate-500 dark:text-slate-400" id="result-detail"></p>
+          <div id="send-status" class="mt-5 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border-2 border-slate-100 dark:border-slate-700 px-4 py-3 font-bold text-sm text-slate-500 dark:text-slate-400" aria-live="polite">Status pengiriman hasil ke guru akan muncul di sini.</div>
+          <button id="btn-resend" data-act="resend-result" class="hidden mt-3 w-full py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-white font-display font-semibold transition"><i class="fa-solid fa-paper-plane mr-2"></i>Kirim Ulang ke Guru</button>
           <div class="flex flex-col sm:flex-row gap-3 mt-6">
             <button data-act="retake-quiz" class="flex-1 py-3.5 rounded-2xl bg-violet-600 hover:bg-violet-500 text-white font-display font-semibold transition"><i class="fa-solid fa-rotate-right mr-2"></i>Kerjakan Lagi</button>
             <button data-act="go-home" class="flex-1 py-3.5 rounded-2xl bg-slate-100 dark:bg-slate-700 font-display font-semibold"><i class="fa-solid fa-house mr-2"></i>Menu Utama</button>
@@ -668,7 +670,36 @@
             <button data-act="export-csv" class="flex-1 py-3.5 rounded-2xl bg-teal-600 hover:bg-teal-500 text-white font-display font-semibold transition"><i class="fa-solid fa-file-csv mr-2"></i>Ekspor CSV</button>
             <button id="btn-reset" data-act="reset-recap" class="flex-1 py-3.5 rounded-2xl bg-rose-100 dark:bg-rose-500/15 text-rose-600 dark:text-rose-300 font-display font-semibold transition"><i class="fa-solid fa-trash mr-2"></i>Reset Data</button>
           </div>
+          <a data-sheet-link href="https://docs.google.com/spreadsheets/d/1Ulf1zCT_1WW8RM0yw8GMQ4gOl9QOf2ylcqxosUMCZlw/edit?usp=drive_link" target="_blank" rel="noopener" class="mt-3 flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-emerald-700 hover:bg-emerald-600 text-white font-display font-semibold transition shadow-lg shadow-emerald-700/25"><i class="fa-solid fa-table-cells-large"></i>Buka Spreadsheet Hasil Kuis Prisma<i class="fa-solid fa-arrow-up-right-from-square text-sm"></i></a>
           <p class="text-xs font-bold text-slate-400 dark:text-slate-500 mt-3">Rekap tersimpan selama halaman ini terbuka. Unduh ke Excel/CSV agar nilai tidak hilang saat halaman ditutup.</p>
+        </div>
+
+        <!-- Pengaturan Guru — Rekap Google Sheets -->
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-8 shadow mt-6">
+          <button data-act="toggle-guru" class="w-full flex items-center justify-between gap-3 text-left" aria-expanded="false">
+            <span class="font-display font-semibold text-xl"><i class="fa-solid fa-table-cells-large text-emerald-500 mr-2"></i>Pengaturan Guru — Rekap Google Sheets</span>
+            <i id="guru-chevron" class="fa-solid fa-chevron-down text-slate-400 transition-transform shrink-0"></i>
+          </button>
+          <div id="guru-body" class="hidden mt-4">
+            <a data-sheet-link href="https://docs.google.com/spreadsheets/d/1Ulf1zCT_1WW8RM0yw8GMQ4gOl9QOf2ylcqxosUMCZlw/edit?usp=drive_link" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-emerald-700 hover:bg-emerald-600 text-white font-display font-semibold transition shadow-lg shadow-emerald-700/25"><i class="fa-solid fa-table-cells-large"></i>Buka Spreadsheet Hasil Kuis Prisma<i class="fa-solid fa-arrow-up-right-from-square text-sm"></i></a>
+            <div class="mt-4 rounded-2xl bg-amber-50 dark:bg-amber-500/10 border-2 border-amber-200 dark:border-amber-500/30 px-4 py-3">
+              <p class="font-semibold text-amber-800 dark:text-amber-200 text-sm leading-relaxed"><i class="fa-solid fa-circle-info mr-1.5"></i>Endpoint bawaan <strong>sudah terpasang</strong> — pengiriman hasil kuis ke Spreadsheet Prisma aktif, jadi siswa yang membuka aplikasi ini langsung terekap tanpa mengatur apa pun. Kolom endpoint manual di bawah tetap berfungsi sebagai <strong>pengganti</strong> bila guru menempel URL Web App lain (misalnya setelah Deploy ulang Apps Script), dan tombol Tes Kirim tetap tersedia untuk memeriksa sambungannya.</p>
+            </div>
+            <p class="font-semibold text-slate-500 dark:text-slate-400 text-sm leading-relaxed mt-4">Hasil Kuis Interaktif (Modul 7) otomatis terkirim ke Google Spreadsheet guru lewat endpoint bawaan yang sudah terpasang — setiap siswa yang menyelesaikan kuis dari HP-nya langsung terekap di Spreadsheet, tanpa perlu membagikan link khusus. Kolom di bawah hanya dipakai bila guru ingin mengganti endpoint bawaan dengan URL Web App lain; setelah disimpan, <strong>Link Siswa</strong> dapat disalin untuk dibagikan ke kelas. Rekap lokal di halaman ini tetap ada sebagai cadangan, dan pengiriman membutuhkan koneksi internet.</p>
+            <label class="block font-bold text-sm text-slate-500 dark:text-slate-400 mt-4" for="guru-endpoint">URL Web App Google Apps Script</label>
+            <input id="guru-endpoint" type="url" placeholder="https://script.google.com/macros/s/…/exec" class="mt-1.5 w-full rounded-xl border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-4 py-3 font-bold focus:border-emerald-500 focus:outline-none" />
+            <div class="flex flex-col sm:flex-row gap-3 mt-4">
+              <button data-act="save-endpoint" class="flex-1 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-display font-semibold transition"><i class="fa-solid fa-floppy-disk mr-2"></i>Simpan</button>
+              <button data-act="test-endpoint" class="flex-1 py-3 rounded-2xl bg-teal-600 hover:bg-teal-500 text-white font-display font-semibold transition"><i class="fa-solid fa-paper-plane mr-2"></i>Tes Kirim</button>
+              <button data-act="copy-student-link" class="flex-1 py-3 rounded-2xl bg-violet-600 hover:bg-violet-500 text-white font-display font-semibold transition"><i class="fa-solid fa-link mr-2"></i>Salin Link Siswa</button>
+            </div>
+            <p id="guru-status" class="font-bold text-sm mt-3 min-h-[1.25rem]" aria-live="polite"></p>
+            <div id="guru-link-box" class="hidden mt-2">
+              <label class="block font-bold text-sm text-slate-500 dark:text-slate-400" for="guru-link-text">Link Siswa — bagikan link ini ke kelas</label>
+              <input id="guru-link-text" type="text" readonly class="mt-1.5 w-full rounded-xl border-2 border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-4 py-3 font-bold text-sm focus:border-violet-500 focus:outline-none" />
+            </div>
+            <p class="text-xs font-bold text-slate-400 dark:text-slate-500 mt-3">Cukup bagikan Link Siswa di atas ke kelas — siswa yang membukanya otomatis terhubung ke Spreadsheet guru dan tidak perlu mengisi pengaturan apa pun.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -2266,6 +2297,13 @@
       if (passed) sWin(); else sOpen();
       recap.push({ nama: quiz.student.nama, kelas: quiz.student.kelas, absen: quiz.student.absen, benar: quiz.correct, nilai: nilai });
       renderRecap();
+      lastQuizPayload = {
+        aplikasi: 'Prisma',
+        nama: quiz.student.nama, kelas: quiz.student.kelas, absen: quiz.student.absen,
+        nilai: nilai, jumlahBenar: quiz.correct, jumlahSoal: quiz.questions.length,
+        waktu: new Date().toISOString()
+      };
+      kirimHasilKuis();
     }
     function retakeQuiz() {
       sClick();
@@ -2343,6 +2381,135 @@
     renderRecap();
 
     /* ============================================================
+       REKAP GOOGLE SHEETS — hasil Kuis Modul 7 dikirim otomatis ke
+       Google Spreadsheet guru lewat Google Apps Script Web App.
+       Prioritas endpoint:
+         1) parameter URL ?kirim=<url> (disimpan ke localStorage)
+         2) localStorage 'rekapEndpoint' (diisi lewat Pengaturan Guru)
+         3) konstanta REKAP_ENDPOINT di bawah (sudah ditanamkan URL Web App
+            guru, jadi pengiriman aktif secara bawaan)
+       Pengiriman memakai fetch mode 'no-cors' + Content-Type
+       text/plain agar tidak memicu preflight CORS dari Apps Script.
+    ============================================================ */
+    const REKAP_ENDPOINT = "https://script.google.com/macros/s/AKfycbylRurSez-rgwdWSQ6Zk-MDL2RX60mGNUjtjD6rmlU-geHrBAUEclvka3mw9nKg7m-gTA/exec"; // URL Web App Apps Script guru — endpoint bawaan
+    // Spreadsheet tujuan hasil kuis Prisma — tautan LIHAT untuk guru, dibuka
+    // lewat tombol "Buka Spreadsheet Hasil Kuis Prisma" (Modul 7). Tautan
+    // spreadsheet ini TIDAK menerima kiriman data; yang menerima kiriman
+    // tetap URL Web App Apps Script (/exec) lewat mekanisme endpoint di atas.
+    const SHEET_LINK = "https://docs.google.com/spreadsheets/d/1Ulf1zCT_1WW8RM0yw8GMQ4gOl9QOf2ylcqxosUMCZlw/edit?usp=drive_link";
+    let lastQuizPayload = null; // hasil kuis terakhir, untuk tombol Kirim Ulang
+
+    function getRekapEndpoint() {
+      try {
+        const q = new URLSearchParams(location.search).get('kirim');
+        if (q) {
+          try { localStorage.setItem('rekapEndpoint', q); } catch (e) {}
+          return q;
+        }
+        const saved = localStorage.getItem('rekapEndpoint');
+        if (saved) return saved;
+      } catch (e) {}
+      return REKAP_ENDPOINT;
+    }
+    function sendToSheets(url, payload) {
+      // true = fetch tidak error (terkirim), false = gagal/offline/URL tidak valid
+      try {
+        return fetch(url, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        }).then(function () { return true; }, function () { return false; });
+      } catch (e) {
+        return Promise.resolve(false);
+      }
+    }
+    function kirimHasilKuis() {
+      const status = document.getElementById('send-status');
+      const retry = document.getElementById('btn-resend');
+      if (!status || !lastQuizPayload) return;
+      retry.classList.add('hidden');
+      const url = getRekapEndpoint();
+      if (!url) {
+        status.innerHTML = '<i class="fa-solid fa-mobile-screen-button mr-1"></i>Hasil tersimpan di perangkat ini. Pengiriman ke guru belum dipasang (lihat Pengaturan Guru di bawah).';
+        return;
+      }
+      status.innerHTML = '<i class="fa-solid fa-paper-plane mr-1"></i>Mengirim hasil ke guru…';
+      sendToSheets(url, lastQuizPayload).then(function (ok) {
+        if (ok) {
+          status.innerHTML = '<span class="text-emerald-600 dark:text-emerald-400"><i class="fa-solid fa-circle-check mr-1"></i>Hasil terkirim ke guru ✓ (Google Sheets)</span>';
+          retry.classList.add('hidden');
+        } else {
+          status.innerHTML = '<span class="text-rose-500"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Hasil belum terkirim (tidak ada internet).</span> Coba lagi:';
+          retry.classList.remove('hidden');
+        }
+      });
+    }
+    function resendResult() { sClick(); kirimHasilKuis(); }
+
+    /* ---------- Panel Pengaturan Guru ---------- */
+    function guruStatus(msg, ok) {
+      const el = document.getElementById('guru-status');
+      el.className = 'font-bold text-sm mt-3 min-h-[1.25rem] ' + (ok ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500');
+      el.textContent = msg;
+    }
+    function toggleGuruPanel(btn) {
+      const body = document.getElementById('guru-body');
+      const open = body.classList.toggle('hidden') === false;
+      document.getElementById('guru-chevron').style.transform = open ? 'rotate(180deg)' : '';
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      sClick();
+    }
+    function saveEndpoint() {
+      const v = document.getElementById('guru-endpoint').value.trim();
+      try {
+        if (v) localStorage.setItem('rekapEndpoint', v);
+        else localStorage.removeItem('rekapEndpoint');
+      } catch (e) {}
+      if (v) { sCorrect(); guruStatus('Tersimpan ✓ Endpoint Google Sheets aktif di perangkat ini.', true); }
+      else { sClick(); guruStatus('Kolom dikosongkan — endpoint bawaan (Spreadsheet Prisma) tetap aktif di perangkat ini.', true); }
+    }
+    function testEndpoint() {
+      const url = document.getElementById('guru-endpoint').value.trim() || getRekapEndpoint();
+      if (!url) { sWrong(); guruStatus('Isi dulu URL Web App Google Apps Script-nya, lalu klik Tes Kirim.', false); return; }
+      guruStatus('Mengirim data uji…', true);
+      sendToSheets(url, {
+        aplikasi: 'Prisma', nama: 'TES', kelas: '-', absen: '-',
+        nilai: 0, jumlahBenar: 0, jumlahSoal: 20, waktu: new Date().toISOString()
+      }).then(function (ok) {
+        if (ok) { sCorrect(); guruStatus('Tes terkirim ✓ Silakan cek baris "TES" di Google Spreadsheet.', true); }
+        else { sWrong(); guruStatus('Tes gagal terkirim. Periksa koneksi internet dan pastikan URL Web App benar.', false); }
+      });
+    }
+    function copyStudentLink() {
+      const url = document.getElementById('guru-endpoint').value.trim() || getRekapEndpoint();
+      if (!url) { sWrong(); guruStatus('Simpan dulu URL Web App-nya sebelum menyalin Link Siswa.', false); return; }
+      const link = location.origin + location.pathname + '?kirim=' + encodeURIComponent(url);
+      const box = document.getElementById('guru-link-box');
+      const field = document.getElementById('guru-link-text');
+      field.value = link;
+      box.classList.remove('hidden');
+      function manual() {
+        guruStatus('Tidak dapat menyalin otomatis — salin link di kotak di bawah ini secara manual, lalu bagikan ke siswa.', false);
+        field.focus(); field.select();
+      }
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+        navigator.clipboard.writeText(link).then(function () {
+          sCorrect();
+          guruStatus('Link Siswa tersalin ✓ Bagikan link ini ke siswa agar hasil kuis mereka otomatis terkirim ke Spreadsheet guru.', true);
+        }, manual);
+      } else { manual(); }
+    }
+    (function initGuruPanel() {
+      // Tautan "Buka Spreadsheet Hasil Kuis Prisma" mengambil alamat dari SHEET_LINK.
+      document.querySelectorAll('[data-sheet-link]').forEach(function (a) { a.href = SHEET_LINK; });
+      // Menangkap ?kirim= dari Link Siswa dan mengisi kolom endpoint.
+      const ep = getRekapEndpoint();
+      const input = document.getElementById('guru-endpoint');
+      if (input && ep) input.value = ep;
+    })();
+
+    /* ============================================================
        PENGHUBUNG KONTROL — semua tombol & slider dihubungkan lewat
        delegasi addEventListener berdasarkan atribut data-act /
        data-act-input (bukan atribut onclick/oninput inline), supaya
@@ -2378,6 +2545,11 @@
       'export-excel': function () { exportExcel(); },
       'export-csv':   function () { exportCSV(); },
       'reset-recap':  function () { resetRecap(); },
+      'resend-result': function () { resendResult(); },
+      'toggle-guru':  function (el) { toggleGuruPanel(el); },
+      'save-endpoint': function () { saveEndpoint(); },
+      'test-endpoint': function () { testEndpoint(); },
+      'copy-student-link': function () { copyStudentLink(); },
       'open-latihan': function (el) { startLatihan(el.getAttribute('data-bank')); },
       'close-latihan': function () { closeLatihan(); },
       'latihan-opt':  function (el) { latOpt(parseInt(el.getAttribute('data-i'), 10)); },
